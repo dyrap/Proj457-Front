@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- This page is for exam, it will have a timer with JS.
+    Also, get the questions, answers and images for the questions and answers from the DB.-->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Exam</title>
 </head>
 <script>
     function getCookie(){
@@ -17,6 +19,19 @@
     
 </script>
 <body>
-    
+    <form method="post" action="result.html">
+        {% for question in questions %}
+        <img src={{ question.image }} ><br>
+        <p>{{question}}</p>
+            {% for answer in answers %}
+            <img src={{ answer.image }} ><br>
+            <input type="radio" id={{ answer }} name="answer" value={{ answer }}>
+            <label for={{ answer }}>{{ answer }}</label>
+            <br>
+            <hr>
+            { %endfor %}
+        {% endfor %}
+        <input type="submit" value="submit">
+    </form>
 </body>
 </html>

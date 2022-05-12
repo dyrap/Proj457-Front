@@ -1,15 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-</head>
-<body>
-    <h1>Profile page</h1>
     <!--This page is for the students to check thier profile and previous scores. 
     this will page will be available in a button on the home page (index.html). 
     It will contain the student's name, info and scores.-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+         Body{  
+          font-family: Calibri, Helvetica, sans-serif;  
+          padding:40px;
+          background-color:#F4F6F6;
+        }
+        .headerbox{
+            width:100%;   
+            margin: -50px -60px 1px;  
+            padding: 0px 46px 0px;      
+            border: 2px solid black; 
+            font-size: 20px;
+            background-color: #36366C;
+            color: white;
+        }
+        .container{
+            width: 10%;   
+            margin: 0px 0;  
+            padding: 0px 800px 0px;      
+            border: 2px solid black; 
+            font-size: 20px;
+            background-color: white;
+            border-radius: 10px;
+        }
+        .container1{   
+            margin: 70px -760px;  
+            padding: 0px 0px;      
+            font-size: 22px;
+
+        }
+        .container2{
+            width: 100%;   
+            margin: -551.5px -150px;  
+            padding: 17px 150px;      
+            border: 2px solid black; 
+            font-size: 22px;
+            text-align:center;
+            background-color:white;
+            border-radius: 10px;
+        }
+        .container2:hover{
+            transform: scale(1.1);
+        }
+        .container3{
+            width: 100%;   
+            margin: 6px 514px;  
+            padding: 23px 150px;      
+            border: 2px solid black; 
+            font-size: 22px;
+            text-align: center;
+            background-color:white;
+            border-radius: 10px;
+        }
+        .container3:hover{
+            transform: scale(1.1);
+        }
+        .img-responsive{
+            margin: 10px -820px;  
+            padding: 10px 150px;
+            width: 100%;
+            height: auto; 
+        }
+        .img-responsive1{
+            margin: 0px -820px;  
+            padding: 10px 150px;
+            height: auto
+        }
+        .a-button:link, .a-button:visited {
+            background-color: white;
+            color: black;
+            border: 2px solid blue;
+            border-radius: 10px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .a-button:hover, .a-button:active {
+            background-color: blue;
+            color: white;
+        }
+        .home-nav{
+            position: absolute;
+            top: 70px;
+            right: 330px;
+        }
+        .profile-nav{
+            position: absolute;
+            top: 70px;
+            right: 180px;
+        }
+        .logout-nav{
+            position: absolute;
+            top: 70px;
+            right: 30px;
+        }
+        .a1:link, .a1:visited {
+            color: white;
+            border: 1px solid #36366C;
+            padding: 1px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .a1:hover, .a1:active {
+            background-color: #313161;
+            color: white;
+        }
+        .a3:link, .a3:visited {
+            background-color: #454545;
+            color: white;
+            border: 1px solid #36366C;
+            padding: 1px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 10px;
+        }
+        .a3:hover, .a3:active {
+            background-color: black;
+            color: white;
+        }
+        h1{
+            color: white;
+        }
+        .h11{
+            color: black;
+        }  
+    </style>
+    <script>
+        function getCookie(){
+            console.log("cookie: " + document.cookie);
+            return document.cookie;
+        }
+        function emptyCookie(){
+            document.cookie = "";
+        }
+    </script>
+</head>
+<body>
+    <center><div class="headerbox">
+        <h1>Welcome to your profile page</h1>
+        <nav class="home-nav"><a class="a1" href="index.html">Home</a></nav>
+        <b class="profile-nav"><a class="a1" href="profile.html">Profile</a></b>
+        <b class="logout-nav"><a class ="a3" href="login.html" onclick="emptyCookie()">Logout</a></b>
+    </div></center>
+    <br>
+    <hr>
+    <br>
+    <h1 class ="h11">Profile page</h1>
+    <div class="container">
+        <div class="container1">
+            <p>Your account details are below:</p>
+            <table>
+                <tr>
+                    <td><b>Name:</b></td>
+                    <td>{{ account['firstname'] }} {{ account['lastname'] }}</td>
+                </tr>
+                <tr>
+                    <td><b>Username:</b></td>
+                    <td>{{ account['username'] }}</td>
+                </tr>
+            </table>
+            <br>
+            <hr>
+            <p>Your previous scores in exam:</p>
+            {% for score in scores %}
+            {{ score }} /100.
+            <hr>
+            {% endfor %}
+        </div>       
+    </div>
 </body>
 </html>
