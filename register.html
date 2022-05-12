@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register page</title>
+    <style>
+         Body{  
+          font-family: Calibri, Helvetica, sans-serif;  
+          padding:100px;
+        }
+        input{   
+            width: 40%;   
+            margin: 8px 0;  
+            padding: 15px 10px;   
+            display: inline-block;   
+            border: 2px solid black;   
+            box-sizing: border-box;   
+        }
+        button{   
+            width: 40%;  
+            padding: 15px;   
+            margin: 10px 0px;   
+            border: 1px solid black;   
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .container{   
+            font-size: 20px; 
+        }     
+    </style>
+    <script>
+        function saveAUserID(value){
+            document.cookie = value;
+        }
+        function getCookie(){
+            console.log("cookie: " + document.cookie);
+        }
+    </script> 
+</head>
+<body>
+    <center><h1>Enter your information below:</h1></center>
+    <center><div class="container">
+    <form method="post" action="login.html">
+        <label><b>First name</b></label>
+        <br>   
+        <input type="text" placeholder="Enter your First name" name="fname" size="17" maxlength="20" required> 
+        <br><br>
+        <label><b>Last name</b></label>
+        <br>   
+        <input type="text" placeholder="Enter your Last name" name="lname" size="17" maxlength="20" required> 
+        <br><br>    
+        <label><b>Username</b></label>
+        <br>   
+        <input type="text" placeholder="Enter Username" name="username" size="17" required> 
+        <br><br>  
+        <label><b>Password</b></label>
+        <br>   
+        <input type="password" placeholder="Enter Password" name="password" size="17" required>
+        <br>  
+        <button type="submit"><b>Register</b></button>
+    </form>
+    <br>    
+</div>
+</center>
+</body>
+</html>
