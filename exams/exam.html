@@ -16,7 +16,9 @@
     function emptyCookie(){
         document.cookie = "";
     }
-    
+    function showHint() {
+        document.getElementById("hint").style.display = "block";
+      }
 </script>
 <body>
     <form method="post" action="result.html">
@@ -28,8 +30,14 @@
             <input type="radio" id={{ answer }} name="answer" value={{ answer }}>
             <label for={{ answer }}>{{ answer }}</label>
             <br>
+            <button type="button" onclick="showHint()">Show hint</button>
+            <div id="hint" style="display: none;">
+                {% for hint in questions %}
+                {{ question.hint }}
+            </div>
+            {% endfor %}
             <hr>
-            { %endfor %}
+            {% endfor %}
         {% endfor %}
         <input type="submit" value="submit">
     </form>
