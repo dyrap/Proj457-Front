@@ -11,7 +11,16 @@
           padding:10px;
           font-size:22px;
           text-align:center;
-          background-color: #F2FEFE;
+          background-color:#F4F6F6;
+        }
+        .headerbox{
+            width:96.8%;   
+            margin: -20px -60px 1px;  
+            padding: 0px 46px 0px;      
+            border: 2px solid black; 
+            font-size: 20px;
+            background-color: #36366C;
+            color: white;
         }
         input{   
             width: 20%;   
@@ -27,6 +36,7 @@
             border: 2px solid black; 
             font-size: 20px;
             border-radius: 10px;
+            background-color: white; 
         }
         button{   
             width: 10%;  
@@ -50,6 +60,28 @@
         button:hover, button:active {
             background-color: blue;
             color: white;
+        }
+        .img-input{
+            background-color: white;
+            border: 2px solid blue;
+            width: 10%;   
+            margin: 1px ; 
+            margin-right: -400px; 
+            padding: 10px 10px;   
+            display: inline-block;      
+            border-radius: 10px;
+        }
+        .img-input:link, .img-input:visited {
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .img-input:hover, .img-input:active {
+            background-color: blue;
+            color: white;
+            cursor: pointer;
         }   
     </style>
     <script>
@@ -63,17 +95,26 @@
     </script>
 </head>
 <body>
-    <h1>Create a Question</h1>
-    <hr size="10px"style="background-color:black;">
+    <center><div class="headerbox">
+        <h1>Create a question</h1>
+    </div></center>
+    <br>
+    <hr>
     <b>To add a question, please fill the form below:</b><br><br>
     <div class="container">
         <form method="post" action="">
             <label for="question"><b>Enter the question:</b></label>
             <br>   
             <textarea name="question" size="17" rows="7" cols="100"></textarea>
+            <br>
+            <label for="image" class="img-input">Choose Image</label>
+            <input id="image" type="file" style="visibility:hidden;" name="img" />
             <br><br>
             <label><b>Quest Hint:</b></label>
             <input type="text" placeholder="Enter Hint here" name="hint" size="17" maxlength="500" required>
+            <br><br>
+            <hr>
+            <b>Enter the answers:</b>
             <br><br>
             <label><b>Answer A:</b></label>   
             <input type="text" placeholder="Enter Answer A" name="AnswerA" size="17" maxlength="500" required>
