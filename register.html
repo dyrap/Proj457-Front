@@ -49,6 +49,7 @@
         }
         function registerUser()
         {
+            try{
             const firstName = document.getElementById('fname').value;
             const userName = document.getElementById('lastName').value;
             const lastName = document.getElementById('username').value;
@@ -71,14 +72,20 @@
             {
                 alert('something went wrong')
             })
+        } catch(error){
+            console.log(error)
+        }
 
         }
 
+        var form = document.getElementById("myForm");
+        function handleForm(event) { event.preventDefault(); } 
+        form.addEventListener('submit', handleForm);
     </script>
 
-    <script type="text/javascript">
+    <!--<script type="text/javascript">
         var frm = $('#myform');
-    </script>
+    </script>-->
 
 </head>
 
@@ -88,27 +95,26 @@
     </center>
     <center>
         <div class="container">
-            <!-- <form  > -->
+            <form id="myForm" action="" method="post" onsubmit="return false"> 
             <label><b>First name</b></label>
             <br>
-            <input id="fname" type="text" placeholder="Enter your First name" name="fname" size="17" maxlength="20">
+            <input id="fname" type="text" placeholder="Enter your First name" name="fname" size="17" maxlength="20" required>
             <br><br>
             <label><b>Last name</b></label>
             <br>
-            <input id="lastName" type="text" placeholder="Enter your Last name" name="lname" size="17" maxlength="20">
+            <input id="lastName" type="text" placeholder="Enter your Last name" name="lname" size="17" maxlength="20" required>
             <br><br>
             <label><b>Username</b></label>
             <br>
-            <input id="username" type="text" placeholder="Enter Username" name="username" size="17">
+            <input id="username" type="text" placeholder="Enter Username" name="username" size="17" required>
             <br><br>
             <label><b>Password</b></label>
             <br>
-            <input id="password" type="password" placeholder="Enter Password" name="password" size="17">
+            <input id="password" type="password" placeholder="Enter Password" name="password" size="17" required>
             <br>
             <button onclick="registerUser()"><b>Register</b></button>
-
-            <!-- </form> -->
             <br>
+            </form>
         </div>
     </center>
 </body>

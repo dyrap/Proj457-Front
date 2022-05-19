@@ -23,12 +23,24 @@
 <body>
     <form method="post" action="result.html">
         {% for question in questions %}
-        <img src={{ question.image }} ><br>
+        <img src={{ question.imagePATH }} ><br>
         <p>{{question}}</p>
             {% for answer in answers %}
-            <img src={{ answer.image }} ><br>
-            <input type="radio" id={{ answer }} name="answer" value={{ answer }}>
-            <label for={{ answer }}>{{ answer }}</label>
+            <br>
+            <!-- We will use this function 
+                document.querySelector('input[name="correct"]:checked').value;
+                to get the selected radio button, from the "question.id" in the name="" radio button -->
+            <input type="radio" id={{ question.id }} name={{ question.id }} value="A">
+            <label for={{ answer }}>{{ question.answerA }}</label>
+            <br>
+            <input type="radio" id={{ question.id }} name={{ question.id }} value="B">
+            <label for={{ answer }}>{{ question.answerB }}</label>
+            <br>
+            <input type="radio" id={{ question.id }} name={{ question.id }} value="C">
+            <label for={{ answer }}>{{ question.answerC }}</label>
+            <br>
+            <input type="radio" id={{ question.id }} name={{ question.id }} value="D">
+            <label for={{ answer }}>{{ question.answerD }}</label>
             <br>
             <button type="button" onclick="showHint()">Show hint</button>
             <div id="hint" style="display: none;">
