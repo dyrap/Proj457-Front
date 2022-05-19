@@ -1,0 +1,29 @@
+{
+  "name": "proj457-front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel app.js",
+    "build": "no build app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dyrap/Proj457-Front.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dyrap/Proj457-Front/issues"
+  },
+  "homepage": "https://github.com/dyrap/Proj457-Front#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  }
+}

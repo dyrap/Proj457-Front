@@ -1,82 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <style>   
-        Body{  
-          font-family: Calibri, Helvetica, sans-serif;  
-          padding:10px;
-        }  
-        button{   
-            width: 40%;  
-            padding: 15px;   
-            margin: 10px 0px;   
-            border: 1px solid black;   
+    <style>
+        Body {
+            font-family: Calibri, Helvetica, sans-serif;
+            padding: 10px;
+        }
+
+        button {
+            width: 40%;
+            padding: 15px;
+            margin: 10px 0px;
+            border: 1px solid black;
             cursor: pointer;
             font-size: 20px;
-            border-radius: 20px;  
-        }   
-        input{   
-            width: 40%;   
-            margin: 8px 0;  
-            padding: 15px 10px;   
-            display: inline-block;   
-            border: 2px solid black;   
-            box-sizing: border-box;
-            border-radius: 10px;   
-        }  
-        .container{   
-            font-size: 20px;
-            padding: 70px; 
+            border-radius: 20px;
         }
-        .a1{
+
+        input {
+            width: 40%;
+            margin: 8px 0;
+            padding: 15px 10px;
+            display: inline-block;
+            border: 2px solid black;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+
+        .container {
+            font-size: 20px;
+            padding: 70px;
+        }
+
+        .a1 {
             text-decoration: none;
         }
-        </style>
-        <script>
-            function saveAUserID(value){
-                document.cookie = value;
-            }
-            function getCookie(){
-                console.log("cookie: " + document.cookie);
-                return document.cookie;
-            }
-            function validation(){
-                var user = document.getElementById("username").value;
-                var password = document.getElementById("password").value;
+    </style>
+    <script>
+        function saveAUserID(value)
+        {
+            document.cookie = value;
+        }
+        function getCookie()
+        {
+            console.log("cookie: " + document.cookie);
+            return document.cookie;
+        }
+        function validation()
+        {
+            var user = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
 
-                if (user == "admin" && password == "admin123"){
-                    alert("login successfully");
-                    return false;
-                }
-                else{
-                    alert("error");
-                }
+            if (user == "admin" && password == "admin123")
+            {
+                alert("login successfully");
+                return false;
             }
-        </script>   
-        </head>    
-        <body>    
-            <center> <h1> Login page </h1> </center> 
-            <hr><br> 
-            <center>
-                <div class="container">
-                    <form action="index.html">   
-                        <label><b>Username</b></label>
-                        <br>   
-                        <input type="text" placeholder="Enter Username" name="username" id="username" size="17" required> 
-                        <br><br>  
-                        <label><b>Password</b></label>
-                        <br>   
-                        <input type="password" placeholder="Enter Password" name="password" id="password" size="17" required>
-                        <br>  
-                        <button type="submit" onclick="validation()"><b>Login</b></button>
-                    </form>
-                    <br>
-                    <b>Don't have an account? </b><a class="a1" href="register.html">Register here</a>     
-                </div>
-            </center>   
-        </body>     
-        </html>  
+            else
+            {
+                alert("error");
+            }
+        }
+        function signIn()
+        {
+            try{
+                const userName = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+    
+                var req = axios.post('http://127.0.0.1:5000/signIn',
+                    {
+                        userName,
+                        password,
+                    }
+                ).then((data) =>
+                {
+                    if (data.status === 200)
+                        window.location = 'index.html'
+                    else
+                        alert('something went wrong')
+                }).catch((error) =>
+                {
+                    alert('something went wrong')
+                })
+            } catch(error) {
+            }
+
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+        <h1> Login page </h1>
+    </center>
+    <hr><br>
+    <center>
+        <div class="container">
+                <label><b>Username</b></label>
+                <br>
+                <input id="username"  type="text" placeholder="Enter Username" name="username" size="17">
+                <br><br>
+                <label><b>Password</b></label>
+                <br>
+                <input id="password" type="password" placeholder="Enter Password" name="password" size="17">
+                <br>
+                <button  onclick="signIn()"><b>Login</b></button>
+            <br>
+
+            <b>Don't have an account? </b><a class="a1" href="register.html">Register here</a>
+        </div>
+    </center>
+</body>
+
+</html>
