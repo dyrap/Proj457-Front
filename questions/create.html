@@ -102,7 +102,7 @@
             const AnswerB = document.getElementById('B').value;
             const AnswerC = document.getElementById('C').value;
             const AnswerD = document.getElementById('D').value;
-            document.querySelector('input[name="correct"]:checked').value;
+            const correctAnswer = document.querySelector('input[name="correct"]:checked').value;
 
             var req = axios.post('http://127.0.0.1:5000/questions',
                 {
@@ -113,6 +113,7 @@
                     AnswerB,
                     AnswerC,
                     AnswerD,
+                    correctAnswer
                 }
             ).then((data) =>
             {
