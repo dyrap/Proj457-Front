@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
     <!--This page is for the students to check thier profile and previous scores. 
     this will page will be available in a button on the home page (index.html). 
     It will contain the student's name, info and scores.-->
@@ -9,36 +11,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
     <style>
-         Body{  
-          font-family: Calibri, Helvetica, sans-serif;  
-          padding:40px;
-          background-color:#F4F6F6;
+        Body {
+            font-family: Calibri, Helvetica, sans-serif;
+            padding: 40px;
+            background-color: #F4F6F6;
         }
-        .headerbox{
-            width:100%;   
-            margin: -50px -60px 1px;  
-            padding: 0px 46px 0px;      
-            border: 2px solid black; 
+
+        .headerbox {
+            width: 100%;
+            margin: -50px -60px 1px;
+            padding: 0px 46px 0px;
+            border: 2px solid black;
             font-size: 20px;
             background-color: #36366C;
             color: white;
         }
-        .container{
-            width: 10%;   
-            margin: 0px 0;  
-            padding: 0px 800px 0px;      
-            border: 2px solid black; 
+
+        .container {
+            width: 10%;
+            margin: 0px 0;
+            padding: 0px 800px 0px;
+            border: 2px solid black;
             font-size: 20px;
             background-color: white;
             border-radius: 10px;
         }
-        .container1{   
-            margin: 70px -760px;  
-            padding: 0px 0px;      
+
+        .container1 {
+            margin: 70px -760px;
+            padding: 0px 0px;
             font-size: 22px;
 
         }
-        .a-button:link, .a-button:visited {
+
+        .a-button:link,
+        .a-button:visited {
             background-color: white;
             color: black;
             border: 2px solid blue;
@@ -48,26 +55,33 @@
             text-decoration: none;
             display: inline-block;
         }
-        .a-button:hover, .a-button:active {
+
+        .a-button:hover,
+        .a-button:active {
             background-color: blue;
             color: white;
         }
-        .home-nav{
+
+        .home-nav {
             position: absolute;
             top: 70px;
             right: 330px;
         }
-        .profile-nav{
+
+        .profile-nav {
             position: absolute;
             top: 70px;
             right: 180px;
         }
-        .logout-nav{
+
+        .logout-nav {
             position: absolute;
             top: 70px;
             right: 30px;
         }
-        .a1:link, .a1:visited {
+
+        .a1:link,
+        .a1:visited {
             color: white;
             border: 1px solid #36366C;
             padding: 1px 20px;
@@ -75,11 +89,15 @@
             text-decoration: none;
             display: inline-block;
         }
-        .a1:hover, .a1:active {
+
+        .a1:hover,
+        .a1:active {
             background-color: #313161;
             color: white;
         }
-        .a3:link, .a3:visited {
+
+        .a3:link,
+        .a3:visited {
             background-color: #454545;
             color: white;
             border: 1px solid #36366C;
@@ -89,59 +107,114 @@
             display: inline-block;
             border-radius: 10px;
         }
-        .a3:hover, .a3:active {
+
+        .a3:hover,
+        .a3:active {
             background-color: black;
             color: white;
         }
-        h1{
+
+        h1 {
             color: white;
         }
-        .h11{
+
+        .h11 {
             color: black;
-        }  
+        }
     </style>
     <script>
-        function getCookie(){
+        function getCookie()
+        {
             console.log("cookie: " + document.cookie);
             return document.cookie;
         }
-        function emptyCookie(){
+        function emptyCookie()
+        {
             document.cookie = "";
         }
     </script>
 </head>
+
 <body>
-    <center><div class="headerbox">
-        <h1>Welcome to your profile page</h1>
-        <nav class="home-nav"><a class="a1" href="index.html">Home</a></nav>
-        <b class="profile-nav"><a class="a1" href="profile.html">Profile</a></b>
-        <b class="logout-nav"><a class ="a3" href="login.html" onclick="emptyCookie()">Logout</a></b>
-    </div></center>
+    <center>
+        <div class="headerbox">
+            <h1>Welcome to your profile page</h1>
+            <nav class="home-nav"><a class="a1" href="index.html">Home</a></nav>
+            <b class="profile-nav"><a class="a1" href="profile.html">Profile</a></b>
+            <b class="logout-nav"><a class="a3" href="login.html" onclick="emptyCookie()">Logout</a></b>
+        </div>
+    </center>
     <br>
     <hr>
     <br>
-    <h1 class ="h11">Profile page</h1>
+    <h1 class="h11">Profile page</h1>
     <div class="container">
-        <div class="container1">
+        <div id="parent" class="container1">
             <p>Your account details are below:</p>
             <table>
                 <tr>
                     <td><b>Name:</b></td>
-                    <td>{{ account['firstname'] }} {{ account['lastname'] }}</td>
+                    <td id="name"></td>
                 </tr>
                 <tr>
                     <td><b>Username:</b></td>
-                    <td>{{ account['username'] }}</td>
+                    <td id="username">{{ account['username'] }}</td>
                 </tr>
             </table>
             <br>
             <hr>
             <p>Your previous scores in exam:</p>
-            {% for score in scores %}
-            {{ score }} /100.
             <hr>
-            {% endfor %}
-        </div>       
+        </div>
     </div>
+    <script>
+        document.getElementById('name').innerHTML = `${localStorage['firstName']} ${localStorage['lastName']}`
+        document.getElementById('username').innerHTML = localStorage['userName']
+
+        try
+        {
+
+            var req = axios.get('http://127.0.0.1:5000/scores'
+            ).then((data) =>
+            {
+                console.log('------data: ', data);
+                if (data.status === 200)
+                {
+                    const myScores = data.data.filter((score) => score.userId === localStorage['userId'])
+                    console.log('------myScores: ', myScores);
+                    myScores.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach((score) => {
+                        const hr = document.createElement("HR");
+                        const p = document.createElement("P");
+                        p.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+
+                        const tr = document.createElement("TR");
+                        tr.class = "table__row"
+                        const th1 = document.createElement("TD");
+                        th1.class = "table__cell"
+                        th1.innerHTML = score.score
+                        const th3 = document.createElement("TD");
+                        th3.class = "table__cell"
+                        th3.innerHTML = new Date(score.date).toDateString()
+
+                        tr.appendChild(th1)
+                        tr.appendChild(p)
+                        tr.appendChild(th3)
+                        document.getElementById("parent").appendChild(tr);
+                        document.getElementById("parent").appendChild(hr);
+                    })
+                }
+                else
+                    alert('something went wrong')
+            }).catch((error) =>
+            {
+                console.log('------error: ', error);
+                alert('something went wrong')
+            })
+        } catch (error)
+        {
+            console.log('------error: ', error);
+        }
+    </script>
 </body>
+
 </html>

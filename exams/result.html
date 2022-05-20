@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,74 +12,87 @@
 
 </script>
 <style>
-    Body{  
-        font-family: Calibri, Helvetica, sans-serif;  
-        padding:40px;
-        text-align:center;
-        background-color:#F4F6F6;
-      }
-      .head{
-          font-size: 22px;
-          border: 1px solid black;
-          padding: 10px 310px;
-          background-color: white;
-          border-radius: 20px;
-      }
-      .headerbox{
-          width:100%;   
-          margin: -50px -60px 1px;  
-          padding: 0px 46px 0px;      
-          border: 2px solid black; 
-          font-size: 20px;
-          background-color: #36366C;
-          color: white;
-      }
-      .container{
-          width: 85%;   
-          margin: 0px 70px 0px;  
-          padding: 0px 70px 150px;      
-          border: 1px solid black;
-          background-color: white; 
-          font-size: 20px;
-          border-radius: 5px;
-      }
-      .container1{
-        width: 95%;   
-        margin: 200px -30px 0px;  
-        padding: 0px 70px 0px;       
+    Body {
+        font-family: Calibri, Helvetica, sans-serif;
+        padding: 40px;
+        text-align: center;
+        background-color: #F4F6F6;
+    }
+
+    .head {
+        font-size: 22px;
+        border: 1px solid black;
+        padding: 10px 310px;
+        background-color: white;
+        border-radius: 20px;
+    }
+
+    .headerbox {
+        width: 100%;
+        margin: -50px -60px 1px;
+        padding: 0px 46px 0px;
+        border: 2px solid black;
+        font-size: 20px;
+        background-color: #36366C;
+        color: white;
+    }
+
+    .container {
+        width: 85%;
+        margin: 0px 70px 0px;
+        padding: 0px 70px 150px;
+        border: 1px solid black;
+        background-color: white;
+        font-size: 20px;
+        border-radius: 5px;
+    }
+
+    .container1 {
+        width: 95%;
+        margin: 200px -30px 0px;
+        padding: 0px 70px 0px;
         font-size: 23px;
     }
-      .a-button:link, .a-button:visited {
-          font-size: 20px;
-          background-color: white;
-          color: black;
-          border: 2px solid blue;
-          border-radius: 10px;
-          padding: 10px 20px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-      }
-      .a-button:hover, .a-button:active {
-          background-color: blue;
-          color: white;
-      }
-      .home-nav{
+
+    .a-button:link,
+    .a-button:visited {
+        font-size: 20px;
+        background-color: white;
+        color: black;
+        border: 2px solid blue;
+        border-radius: 10px;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .a-button:hover,
+    .a-button:active {
+        background-color: blue;
+        color: white;
+    }
+
+    .home-nav {
         position: absolute;
         top: 70px;
         right: 330px;
     }
-    .profile-nav{
+
+    .profile-nav {
         position: absolute;
         top: 70px;
         right: 180px;
     }
-    .logout-nav{
+
+    .logout-nav {
         position: absolute;
         top: 70px;
         right: 30px;
     }
-    .a1:link, .a1:visited {
+
+    .a1:link,
+    .a1:visited {
         color: white;
         border: 1px solid #36366C;
         padding: 1px 20px;
@@ -85,11 +100,15 @@
         text-decoration: none;
         display: inline-block;
     }
-    .a1:hover, .a1:active {
+
+    .a1:hover,
+    .a1:active {
         background-color: #313161;
         color: white;
     }
-    .a3:link, .a3:visited {
+
+    .a3:link,
+    .a3:visited {
         background-color: #454545;
         color: white;
         border: 1px solid #36366C;
@@ -99,33 +118,81 @@
         display: inline-block;
         border-radius: 10px;
     }
-    .a3:hover, .a3:active {
+
+    .a3:hover,
+    .a3:active {
         background-color: black;
         color: white;
     }
 </style>
+
 <body>
-    <center><div class="headerbox">
-        <h1>Exam Score</h1>
-        <nav class="home-nav"><a class="a1" href="../index.html">Home</a></nav>
-        <nav class="profile-nav"><a class="a1" href="../profile.html">Profile</a></nav>
-        <b class="logout-nav"><a class ="a3" href="../login.html" onclick="emptyCookie()">Logout</a></b>
-    </div></center>
+    <center>
+        <div class="headerbox">
+            <h1>Exam Score</h1>
+            <nav class="home-nav"><a class="a1" href="../index.html">Home</a></nav>
+            <nav class="profile-nav"><a class="a1" href="../profile.html">Profile</a></nav>
+            <b class="logout-nav"><a class="a3" href="../login.html" onclick="emptyCookie()">Logout</a></b>
+        </div>
+    </center>
     <br>
     <hr>
     <br>
     <div class="container">
         <div class="container1">
             <b>The Exam is done.</b>
-            <p>Name of the student: {{name}} {{lname}}</p>
-            <p>ID: {{id}}</p>
-            <p>Time consumed: mins of 60mins </p>
-            <p>Your score is: {{ score }} / 100.</p>
-            <p>Your rank now is: {{rank}} </p>
+            <p id="name"></p>
+            <p id="time">Time consumed: mins of 60mins </p>
+            <p id="score">Your score is: {{ score }} / 100.</p>
+            <p id="rank"></p>
         </div>
         <b>GoodLuck.</b>
     </div>
     <br>
-    <b><a class="a-button"a href="../index.html">Retun to home page</a></b>
+    <b><a class="a-button" a href="../index.html">Retun to home page</a></b>
+    <script>
+        console.log('------time', localStorage['time']);
+        document.getElementById('name').innerHTML = `First Name: ${localStorage['firstName']}`
+        document.getElementById('time').innerHTML = `Minutes: ${Math.floor(localStorage['time'] / 60)}, Seconds ${Math.floor(localStorage['time'] % 60)}`
+        document.getElementById('score').innerHTML = `Score: ${localStorage['currentScore']}`
+        var rank = 0
+        try
+        {
+
+            var req = axios.get('http://127.0.0.1:5000/scores'
+            ).then((data) =>
+            {
+                console.log('------data: ', data);
+                if (data.status === 200)
+                {
+                    const scoresSorted = data.data.sort((a, b) => b.score - a.score)
+                    const score = scoresSorted.find((score, index) =>
+                    {
+                        console.log('------index: ', index);
+                        rank = index + 1;
+                        return score.id === localStorage['scoreId']
+                    })
+                    console.log('------score: ', score);
+                    if(localStorage['displayRank'] === 'display')
+                        document.getElementById('rank').innerHTML = `Rank: ${rank}` 
+                        // console.log('------localStorage[displayRank]: ', localStorage['displayRank']);
+                        // console.log('------'localStorage['displayRank']);
+                    // else
+
+                }
+                else
+                    alert('something went wrong')
+            }).catch((error) =>
+            {
+                console.log('------error: ', error);
+                alert('something went wrong')
+            })
+        } catch (error)
+        {
+            console.log('------error: ', error);
+        }
+        console.log('------rank: ', rank);
+    </script>
 </body>
+
 </html>

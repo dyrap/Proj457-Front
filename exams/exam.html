@@ -1,165 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- This page is for exam, it will have a timer with JS.
+  <script src="../node_modules/axios/dist/axios.min.js"></script>
+  <!-- This page is for exam, it will have a timer with JS.
     Also, get the questions, answers and images for the questions and answers from the DB.-->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam</title>
+
+
+
 </head>
-<style>
-    Body{  
-      font-family: Calibri, Helvetica, sans-serif;  
-      padding:10px;
-      font-size:22px;
-      text-align:center;
-      background-color:#F4F6F6;
-    }
-    .headerbox{
-        width:96.8%;   
-        margin: -20px -60px 1px;  
-        padding: 0px 46px 10px;      
-        border: 2px solid black; 
-        font-size: 20px;
-        background-color: #36366C;
-        color: white;
-    }
-    input{   
-        width: 20%;   
-        margin: 1px 0;  
-        padding: 10px 10px;   
-        display: inline-block;   
-        border: 1px solid black;   
-        border-radius: 10px;  
-    }  
-    .container{
-        width: 93.4%;    
-        padding: 20px 60px;
-        margin: 20px 0px;      
-        border: 2px solid black; 
-        font-size: 20px;
-        border-radius: 10px;
-        background-color: white; 
-    }
-    button{   
-        width: 10%;  
-        padding: 5px;   
-        margin: 10px 40px;   
-        border: 1px solid black;   
-        cursor: pointer;
-        font-size: 20px;  
-        border-radius: 10px;
-    }
-    button,button:link, button:visited {
-        background-color: white;
-        color: black;
-        border: 2px solid blue;
-        border-radius: 10px;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-    }
-    button:hover, button:active {
-        background-color: blue;
-        color: white;
-    }
-    .img-input{
-        background-color: white;
-        border: 2px solid blue;
-        width: 10%;   
-        margin: 1px ; 
-        margin-right: -400px; 
-        padding: 10px 10px;   
-        display: inline-block;      
-        border-radius: 10px;
-    }
-    .img-input:link, .img-input:visited {
-        color: black;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-    }
-    .img-input:hover, .img-input:active {
-        background-color: blue;
-        color: white;
-        cursor: pointer;
-    }
-    .count {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 50px;
-        width: 200px;
-        margin: -30px 10px;
-    }  
-</style>
-<body>
-    <center><div class="headerbox">
-        <h1>Exam Started</h1>
-        <p class="count" id="countdown"></p> 
-    </div></center>
-    
-    <div class="container">
-    <form method="post" action="result.html">
-        {% for question in questions %}
-        <img src={{ question.imagePATH }} ><br>
-        <p>{{question}}</p>
-            {% for answer in answers %}
-            <br>
-            <!-- We will use this function 
-                document.querySelector('input[name="correct"]:checked').value;
-                to get the selected radio button, from the "question.id" in the name="" radio button -->
-            <input type="radio" id={{ question.id }} name={{ question.id }} value="A">
-            <label for={{ answer }}>{{ question.answerA }}</label>
-            <br>
-            <input type="radio" id={{ question.id }} name={{ question.id }} value="B">
-            <label for={{ answer }}>{{ question.answerB }}</label>
-            <br>
-            <input type="radio" id={{ question.id }} name={{ question.id }} value="C">
-            <label for={{ answer }}>{{ question.answerC }}</label>
-            <br>
-            <input type="radio" id={{ question.id }} name={{ question.id }} value="D">
-            <label for={{ answer }}>{{ question.answerD }}</label>
-            <br>
-            <button type="button" onclick="showHint()">Show hint</button>
-            <div id="hint" style="display: none;">
-                {% for hint in questions %}
-                {{ question.hint }}
-            </div>
-            {% endfor %}
-            <hr>
-            {% endfor %}
-        {% endfor %}
-        <input type="submit" value="submit">
-    </form>
-    </div>
-    <script>
-        function showHint() {
-            document.getElementById("hint").style.display = "block";
-          }
-        const startingMinutes = 30; //set minutes here we want 30mins
-        let time = startingMinutes * 60;
-        var rediredct = "exams/result.html"
-        const countdownEl = document.getElementById('countdown');
-    
-        setInterval(updateCountdown, 1000);
-    
-        function updateCountdown() {
-        if(time > 0){
-            const minutes = Math.floor(time / 60);
-            let seconds = time % 60;
-    
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-    
-            countdownEl.innerHTML = `${minutes}: ${seconds}`;
-            time--;
-            }else{ //when the time finish we will redirect to results page
-                window.location.href = rediredct
-            }
+
+<script>
+  let questions = []
+
+  function getCookie()
+  {
+    console.log("cookie: " + document.cookie);
+    return document.cookie;
+  }
+
+  const getCorrectAnswers = () =>
+  {
+    console.log('------questions: ', questions);
+    let total = 0
+    questions.forEach((ques) =>
+    {
+      const answer = document.querySelector(`input[name="${ques.id}"]:checked`).value;
+      console.log('------answer: ', answer);
+
+      total += ques.answerCorrect === answer && 1
+      console.log('------total: ', total);
+    })
+    localStorage['currentScore'] = total
+
+    try
+    {
+
+      const token = localStorage["token"] 
+
+      var req = axios.post(`http://127.0.0.1:5000/score/${token}`,
+        {
+          score: total,
+          date: new Date()
         }
-    </script>
+      ).then((data) =>
+      {
+        if (data.status === 200){
+          console.log('------if then ');
+          localStorage['displayRank'] = 'display'
+          localStorage['scoreId'] = data.data
+          window.location = 'result.html'
+          // console.log('------success');
+        }
+        else
+          alert('something went wrong')
+      }).catch((error) =>
+      {
+        alert('something went wrong')
+      })
+    } catch (error)
+    {
+      console.log(error)
+    }
+
+
+
+  }
+  const questionsMap = () =>
+  {
+
+    try
+    {
+      var req = axios.get('http://127.0.0.1:5000/questions'
+
+      ).then((data) =>
+      {
+        console.log('------data: ', data);
+        if (data.status === 200)
+        {
+          console.log('------status 200', data);
+          // const questions = 
+          questions = data?.data
+          data?.data.forEach((ques) =>
+          {
+            // document.querySelector(`input[name="${ques.id}"]:checked`).value;
+            console.log('------ques: ', ques);
+            const div = document.createElement("DIV");
+
+            const para = document.createElement("P");
+            const node = document.createTextNode(ques.question);
+            para.appendChild(node);
+
+            const br = document.createElement("BR");
+            const br1 = document.createElement("BR");
+            const br2 = document.createElement("BR");
+            const br3 = document.createElement("BR");
+
+            const inputA = document.createElement("INPUT");
+            inputA.type = 'radio'
+            inputA.name = ques.id
+            inputA.value = 'answerA'
+
+            const labelA = document.createElement("label");
+            labelA.innerHTML = ques.answerA
+
+            const inputB = document.createElement("INPUT");
+            inputB.type = 'radio'
+            inputB.name = ques.id
+            inputB.value = 'answerB'
+
+            const labelB = document.createElement("label");
+            labelB.innerHTML = ques.answerB
+
+            const inputC = document.createElement("INPUT");
+            inputC.type = 'radio'
+            inputC.name = ques.id
+            inputC.value = 'answerC'
+
+            const labelC = document.createElement("label");
+            labelC.innerHTML = ques.answerC
+
+            const inputD = document.createElement("INPUT");
+            inputD.type = 'radio'
+            inputD.name = ques.id
+            inputD.value = 'answerD'
+
+            const labelD = document.createElement("label");
+            labelD.innerHTML = ques.answerD
+            
+            const buttonHint = document.createElement("BUTTON");
+            buttonHint.onclick = () => {
+              buttonHint.innerHTML = ques.hint
+              return false
+            }
+            buttonHint.innerHTML = 'Show Hint'
+
+
+
+            div.appendChild(para)
+            div.appendChild(br)
+            div.appendChild(labelA)
+            div.appendChild(inputA)
+            div.appendChild(br)
+            div.appendChild(labelB)
+            div.appendChild(inputB)
+            div.appendChild(br1)
+            div.appendChild(labelC)
+            div.appendChild(inputC)
+            div.appendChild(br2)
+            div.appendChild(labelD)
+            div.appendChild(inputD)
+            div.appendChild(br3)
+            div.appendChild(buttonHint)
+            // div.appendChild(labelHint)
+            document.getElementById("questionList").appendChild(div);
+
+          })
+        } else
+          alert('something went wrong')
+      }).catch((error) =>
+      {
+        console.log('error: ', error)
+        alert('something went wrong')
+      })
+    } catch (error)
+    {
+      console.log('error: ', error);
+    }
+
+
+
+  }
+</script>
+<style>
+  Body {
+    font-family: Calibri, Helvetica, sans-serif;
+    padding: 10px;
+    font-size: 22px;
+    text-align: center;
+    background-color: #F4F6F6;
+  }
+
+  .headerbox {
+    width: 96.8%;
+    margin: -20px -60px 1px;
+    padding: 0px 46px 10px;
+    border: 2px solid black;
+    font-size: 20px;
+    background-color: #36366C;
+    color: white;
+  }
+
+  input {
+    width: 20%;
+    margin: 1px 0;
+    padding: 10px 10px;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+
+  .container {
+    width: 93.4%;
+    padding: 20px 60px;
+    margin: 20px 0px;
+    border: 2px solid black;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: white;
+  }
+
+  button {
+    width: 10%;
+    padding: 5px;
+    margin: 10px 40px;
+    border: 1px solid black;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 10px;
+  }
+
+  button,
+  button:link,
+  button:visited {
+    background-color: white;
+    color: black;
+    border: 2px solid blue;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  button:hover,
+  button:active {
+    background-color: blue;
+    color: white;
+  }
+
+  .img-input {
+    background-color: white;
+    border: 2px solid blue;
+    width: 10%;
+    margin: 1px;
+    margin-right: -400px;
+    padding: 10px 10px;
+    display: inline-block;
+    border-radius: 10px;
+  }
+
+  .img-input:link,
+  .img-input:visited {
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .img-input:hover,
+  .img-input:active {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+  }
+
+  .count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    width: 200px;
+    margin: -30px 10px;
+  }
+</style>
+
+
+
+<body>
+  <center>
+    <div class="headerbox">
+      <h1>Exam Started</h1>
+      <p class="count" id="countdown"></p>
+    </div>
+  </center>
+
+  <div class="container">
+    <form method="post" action="result.html">
+    <p id="test"></p>
+    <ul id="questionList"></ul>
+    <input onclick="getCorrectAnswers()" type="button" value="submit">
+    </form>
+  </div>
+  <script>
+    questionsMap()
+    function showHint()
+    {
+      document.getElementById("hint").style.display = "block";
+    }
+    const startingMinutes = 30; //set minutes here we want 30mins
+    let time = startingMinutes * 60;
+    var rediredct = "exams/result.html"
+    const countdownEl = document.getElementById('countdown');
+
+    setInterval(updateCountdown, 1000);
+
+    function updateCountdown()
+    {
+      if (time > 0)
+      {
+        const minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        countdownEl.innerHTML = `${minutes}: ${seconds}`;
+        time--;
+        localStorage['time'] = seconds + (minutes * 60)      
+      } else
+      { //when the time finish we will redirect to results page
+        window.location.href = rediredct
+      }
+    }
+  </script>
 </body>
+
 </html>

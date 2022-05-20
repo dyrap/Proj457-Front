@@ -45,7 +45,7 @@
     <script>
         function saveAUserID(value)
         {
-            document.cookie = value;
+            localStorage["token"] = value;
         }
         function getCookie()
         {
@@ -69,10 +69,11 @@
         }
         function signIn()
         {
-            try{
+            try
+            {
                 const userName = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
-    
+
                 var req = axios.post('http://127.0.0.1:5000/signIn',
                     {
                         userName,
@@ -81,14 +82,33 @@
                 ).then((data) =>
                 {
                     if (data.status === 200)
-                        window.location = 'index.html'
+                    {
+                        if (data.data === 'not authenticated'){
+                            alert('something went wrong')
+                            console.log('------data.data: ', data.data);
+                        }
+                        else
+                        {
+
+                            console.log('------data: ', data);
+                            console.log('------data: ', data.data?.token);
+                            saveAUserID(data.data?.token)
+                            localStorage["userName"] = data.data?.userName
+                            localStorage["firstName"] = data.data?.firstName
+                            localStorage["lastName"] = data.data?.lastName
+                            localStorage["userId"] = data.data?.id
+                            window.location = 'index.html'
+                        }
+                    }
                     else
                         alert('something went wrong')
                 }).catch((error) =>
                 {
                     alert('something went wrong')
                 })
-            } catch(error) {
+            } catch (error)
+            {
+                alert('something went wrong')
             }
 
         }
@@ -102,15 +122,15 @@
     <hr><br>
     <center>
         <div class="container">
-                <label><b>Username</b></label>
-                <br>
-                <input id="username"  type="text" placeholder="Enter Username" name="username" size="17">
-                <br><br>
-                <label><b>Password</b></label>
-                <br>
-                <input id="password" type="password" placeholder="Enter Password" name="password" size="17">
-                <br>
-                <button  onclick="signIn()"><b>Login</b></button>
+            <label><b>Username</b></label>
+            <br>
+            <input id="username" type="text" placeholder="Enter Username" name="username" size="17">
+            <br><br>
+            <label><b>Password</b></label>
+            <br>
+            <input id="password" type="password" placeholder="Enter Password" name="password" size="17">
+            <br>
+            <button onclick="signIn()"><b>Login</b></button>
             <br>
 
             <b>Don't have an account? </b><a class="a1" href="register.html">Register here</a>
