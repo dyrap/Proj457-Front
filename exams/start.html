@@ -38,17 +38,41 @@
             font-size: 22px;
             text-align: center;
         }
-        .a-button:link, .a-button:visited {
+        .a-button,.a-button:link, .a-button:visited {
+            margin: 15px;
             background-color: white;
             color: black;
             border: 2px solid blue;
             border-radius: 10px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
         }
         .a-button:hover, .a-button:active {
+            background-color: blue;
+            color: white;
+        }
+        button{   
+            width: 10%;  
+            padding: 13px 13px;   
+            margin: 15px 30px;   
+            border: 1px solid black;   
+            cursor: pointer;
+            font-size: 20px;  
+            border-radius: 10px;
+            display: inline-block;
+        }
+        button,button:link, button:visited {
+            background-color: white;
+            color: black;
+            border: 2px solid blue;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover, button:active {
             background-color: blue;
             color: white;
         }
@@ -108,7 +132,9 @@
         function emptyCookie(){
             document.cookie = "";
         }
-        
+        function returnHome(){
+            window.location.href = "../index.html"
+        }
     </script>
 </head>
 <body>
@@ -124,12 +150,12 @@
     <h1 class ="h11">Exam page</h1>
     <div class="container">
         <div class="container1">
-            <form method="post" action="">
+            <form method="post" action="exam.html">
                 <p>The exam consists of 20 questions and 30 mins.</p>
                 <label for="choice">Do you want to display your score and rank?</label>
                 <input name="choice" type="checkbox"><br><br>
-                <button type="submit">Start Exam</button>
-                <button id="home">Return home</button>
+                <button type="submit"><b>Start Exam</b></button><br>
+                <a class="a-button" href="../index.html"><b>Return home</b></a>
             </form>
         </div>       
     </div>
