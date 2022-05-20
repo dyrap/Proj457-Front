@@ -6,6 +6,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Students scores</title>
     <style type="text/css">
+        Body{  
+            font-family: Calibri, Helvetica, sans-serif;  
+            padding:40px;
+            background-color:#F4F6F6;
+          }
+          .headerbox{
+              width:100%;   
+              margin: -50px -60px 1px;  
+              padding: 0px 46px 0px;      
+              border: 2px solid black; 
+              font-size: 20px;
+              background-color: #36366C;
+              color: white;
+          }
+          .container{
+              width: 10%;   
+              margin: 0px 0;  
+              padding: 0px 800px 0px;      
+              border: 2px solid black; 
+              font-size: 20px;
+              background-color: white;
+              border-radius: 10px;
+          }
+          .container1{   
+              margin: 70px -760px;  
+              padding: 0px 0px;      
+              font-size: 22px;
+  
+          }
+          .a-button:link, .a-button:visited {
+              background-color: white;
+              color: black;
+              border: 2px solid blue;
+              border-radius: 10px;
+              padding: 10px 20px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+          }
+          .a-button:hover, .a-button:active {
+              background-color: blue;
+              color: white;
+          }
+          .home-nav{
+              position: absolute;
+              top: 70px;
+              right: 180px;
+          }
+          .logout-nav{
+              position: absolute;
+              top: 70px;
+              right: 30px;
+          }
+          .a1:link, .a1:visited {
+              color: white;
+              border: 1px solid #36366C;
+              padding: 1px 20px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+          }
+          .a1:hover, .a1:active {
+              background-color: #313161;
+              color: white;
+          }
+          .a3:link, .a3:visited {
+              background-color: #454545;
+              color: white;
+              border: 1px solid #36366C;
+              padding: 1px 20px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              border-radius: 10px;
+          }
+          .a3:hover, .a3:active {
+              background-color: black;
+              color: white;
+          }
+          h1{
+              color: white;
+          }
+          .h11{
+              color: black;
+          }
         .table{
             border-spacing: 0;
             margin: 12rem;
@@ -32,18 +117,31 @@
     }
 </script>
 <body>
-    <table class="table">
-        <tr class="table__header">
-            {% for header in headings %}
-            <th class="table__cell">{{ header }}</th>
-        </tr>
-        {%for row in data %}
-        <tr class="table__row">
-            {% for cell in row %}
-            <td class="table__cell">{{ cell }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+    <center><div class="headerbox">
+        <h1>Admin control panel</h1>
+        <nav class="home-nav"><a class="a1" href="admin.html">Home</a></nav>
+        <b class="logout-nav"><a class ="a3" href="login.html" onclick="emptyCookie()">Logout</a></b>
+    </div></center>
+    <br>
+    <hr>
+    <br>
+    <h1 class="h11">Students score</h1>
+    <div class="container">
+        <div class="container1">
+            <table class="table">
+                <tr class="table__header">
+                    {% for header in headings %}
+                    <th class="table__cell">{{ header }}</th>
+                </tr>
+                {%for row in data %}
+                <tr class="table__row">
+                    {% for cell in row %}
+                    <td class="table__cell">{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </body>
 </html>

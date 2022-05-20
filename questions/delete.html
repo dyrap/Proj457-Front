@@ -10,7 +10,6 @@
           font-family: Calibri, Helvetica, sans-serif;  
           padding:10px;
           font-size:22px;
-          text-align:center;
           background-color:#F4F6F6;
         }
         .headerbox{
@@ -36,7 +35,9 @@
             border: 2px solid black; 
             font-size: 20px;
             border-radius: 10px;
-            background-color: white; 
+            background-color: white;
+            align-items: center;
+            text-align: center; 
         }
         button{   
             width: 10%;  
@@ -59,6 +60,42 @@
         }
         button:hover, button:active {
             background-color: blue;
+            color: white;
+        }
+        .home-nav{
+            position: absolute;
+            top: 70px;
+            right: 180px;
+        }
+        .logout-nav{
+            position: absolute;
+            top: 70px;
+            right: 30px;
+        }
+        .a1:link, .a1:visited {
+            color: white;
+            border: 1px solid #36366C;
+            padding: 1px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .a1:hover, .a1:active {
+            background-color: #313161;
+            color: white;
+        }
+        .a3:link, .a3:visited {
+            background-color: #454545;
+            color: white;
+            border: 1px solid #36366C;
+            padding: 1px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 10px;
+        }
+        .a3:hover, .a3:active {
+            background-color: black;
             color: white;
         }
         .img-input{
@@ -134,11 +171,13 @@
 </head>
 <body>
     <center><div class="headerbox">
-        <h1>Delete a question</h1>
+        <h1>Admin control panel</h1>
+        <nav class="home-nav"><a class="a1" href="../admin.html">Home</a></nav>
+        <b class="logout-nav"><a class ="a3" href="../login.html" onclick="emptyCookie()">Logout</a></b>
     </div></center>
     <br>
     <hr>
-    <b>To add a question, please fill the form below:</b><br><br>
+    <h1 class ="h11">Delete a question</h1>
     <div class="container">
         {% for question in questions %}
         <img src={{ question.image }} ><br>
