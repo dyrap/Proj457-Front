@@ -80,6 +80,7 @@
                         const br2 = document.createElement("BR");
                         const br3 = document.createElement("BR");
                         const br4 = document.createElement("BR");
+                        const hr = document.createElement("HR");
 
                         const inputA = document.createElement("INPUT");
                         inputA.type = 'radio'
@@ -122,25 +123,30 @@
                         buttonHint.innerHTML = 'Show Hint'
 
 
-
-                        div.appendChild(img)
+                        if(ques.image_url === '.'){
+                            console.log('print', ques.image_url)
+                        }else{
+                            div.appendChild(img)
+                        }
                         div.appendChild(br4)
                         div.appendChild(para)
                         div.appendChild(br)
-                        div.appendChild(labelA)
                         div.appendChild(inputA)
+                        div.appendChild(labelA)
                         div.appendChild(br)
-                        div.appendChild(labelB)
                         div.appendChild(inputB)
+                        div.appendChild(labelB)
                         div.appendChild(br1)
-                        div.appendChild(labelC)
                         div.appendChild(inputC)
+                        div.appendChild(labelC)
                         div.appendChild(br2)
-                        div.appendChild(labelD)
                         div.appendChild(inputD)
+                        div.appendChild(labelD)
                         div.appendChild(br3)
                         div.appendChild(buttonHint)
+                        div.appendChild(hr)
                         // div.appendChild(labelHint)
+                        div.align = 'left'
                         document.getElementById("questionList").appendChild(div);
 
                     })
@@ -180,14 +186,17 @@
         color: white;
     }
 
-    input {
+    .subut{
         width: 20%;
-        margin: 1px 0;
+        margin: 0px 0;
         padding: 10px 10px;
         display: inline-block;
         border: 1px solid black;
         border-radius: 10px;
-    }
+        cursor: pointer;
+        font-size: 20px;
+        text-align: center;
+      }    
 
     .container {
         width: 93.4%;
@@ -263,6 +272,11 @@
         width: 200px;
         margin: -30px 10px;
     }
+    .questionList{
+        align-items: left;
+        text-align: left;
+        font-size: 21px;
+    }
 </style>
 
 <body>
@@ -274,9 +288,8 @@
 
     <div class="container">
         <form action="result.html">
-            <p id="test"></p>
-            <ul id="questionList"></ul>
-            <input onclick="getCorrectAnswers()" type="button" value="submit">
+            <ul class="questionList" id="questionList"></ul>
+            <input class="subut" onclick="getCorrectAnswers()" type="button" value="submit">
         </form>
     </div>
     <script>questionsMap()</script>

@@ -167,7 +167,10 @@
             try
             {
                 const question = document.getElementById('question').value;
-                const image = document.getElementById('image').value;
+                let image = document.getElementById('image').value;
+                if(image === ''){
+                    image = '.'
+                }
                 const hint = document.getElementById('questhint').value;
                 const answerA = document.getElementById('A').value;
                 const answerB = document.getElementById('B').value;
