@@ -1,55 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create a question</title>
     <style>
-        Body{  
-          font-family: Calibri, Helvetica, sans-serif;  
-          padding:10px;
-          font-size:22px;
-          
-          background-color:#F4F6F6;
+        Body {
+            font-family: Calibri, Helvetica, sans-serif;
+            padding: 10px;
+            font-size: 22px;
+
+            background-color: #F4F6F6;
         }
-        .headerbox{
-            width:96.8%;   
-            margin: -20px -60px 1px;  
-            padding: 0px 46px 0px;      
-            border: 2px solid black; 
+
+        .headerbox {
+            width: 96.8%;
+            margin: -20px -60px 1px;
+            padding: 0px 46px 0px;
+            border: 2px solid black;
             font-size: 20px;
             background-color: #36366C;
             color: white;
         }
-        input{   
-            width: 20%;   
-            margin: 1px 0;  
-            padding: 10px 10px;   
-            display: inline-block;   
-            border: 1px solid black;   
-            border-radius: 10px;  
-        }  
-        .container{
-            width: 93.4%;    
-            padding: 20px 60px;      
-            border: 2px solid black; 
+
+        input {
+            width: 20%;
+            margin: 1px 0;
+            padding: 10px 10px;
+            display: inline-block;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        .container {
+            width: 93.4%;
+            padding: 20px 60px;
+            border: 2px solid black;
             font-size: 20px;
             border-radius: 10px;
             background-color: white;
             align-items: center;
-            text-align: center; 
+            text-align: center;
         }
-        button{   
-            width: 10%;  
-            padding: 5px;   
-            margin: 10px 40px;   
-            border: 1px solid black;   
+
+        button {
+            width: 10%;
+            padding: 5px;
+            margin: 10px 40px;
+            border: 1px solid black;
             cursor: pointer;
-            font-size: 20px;  
+            font-size: 20px;
             border-radius: 10px;
         }
-        button,button:link, button:visited {
+
+        button,
+        button:link,
+        button:visited {
             background-color: white;
             color: black;
             border: 2px solid blue;
@@ -59,21 +68,27 @@
             text-decoration: none;
             display: inline-block;
         }
-        button:hover, button:active {
+
+        button:hover,
+        button:active {
             background-color: blue;
             color: white;
         }
-        .home-nav{
+
+        .home-nav {
             position: absolute;
             top: 70px;
             right: 180px;
         }
-        .logout-nav{
+
+        .logout-nav {
             position: absolute;
             top: 70px;
             right: 30px;
         }
-        .a1:link, .a1:visited {
+
+        .a1:link,
+        .a1:visited {
             color: white;
             border: 1px solid #36366C;
             padding: 1px 20px;
@@ -81,11 +96,15 @@
             text-decoration: none;
             display: inline-block;
         }
-        .a1:hover, .a1:active {
+
+        .a1:hover,
+        .a1:active {
             background-color: #313161;
             color: white;
         }
-        .a3:link, .a3:visited {
+
+        .a3:link,
+        .a3:visited {
             background-color: #454545;
             color: white;
             border: 1px solid #36366C;
@@ -95,126 +114,155 @@
             display: inline-block;
             border-radius: 10px;
         }
-        .a3:hover, .a3:active {
+
+        .a3:hover,
+        .a3:active {
             background-color: black;
             color: white;
         }
-        .img-input{
+
+        .img-input {
             background-color: white;
             border: 2px solid blue;
-            width: 10%;   
-            margin: 1px ; 
-            margin-right: -400px; 
-            padding: 10px 10px;   
-            display: inline-block;      
+            width: 10%;
+            margin: 1px;
+            margin-right: -400px;
+            padding: 10px 10px;
+            display: inline-block;
             border-radius: 10px;
         }
-        .img-input:link, .img-input:visited {
+
+        .img-input:link,
+        .img-input:visited {
             color: black;
             padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
         }
-        .img-input:hover, .img-input:active {
+
+        .img-input:hover,
+        .img-input:active {
             background-color: blue;
             color: white;
             cursor: pointer;
         }
-        .h11{
+
+        .h11 {
             color: black;
-        }   
+        }
     </style>
     <script>
-        function getCookie(){
+        function getCookie()
+        {
             console.log("cookie: " + document.cookie);
             return document.cookie;
         }
-        function emptyCookie(){
+        function emptyCookie()
+        {
             document.cookie = "";
         }
         function CreateQuestion()
         {
-            try{
-            const question = document.getElementById('question').value;
-            const image = document.getElementById('image').value;
-            const QuestHint = document.getElementById('questhint').value;
-            const AnswerA = document.getElementById('A').value;
-            const AnswerB = document.getElementById('B').value;
-            const AnswerC = document.getElementById('C').value;
-            const AnswerD = document.getElementById('D').value;
-            const correctAnswer = document.querySelector('input[name="correct"]:checked').value;
-
-            var req = axios.post('http://127.0.0.1:5000/questions',
+            try
+            {
+                const question = document.getElementById('question').value;
+                const image = document.getElementById('image').value;
+                const hint = document.getElementById('questhint').value;
+                const answerA = document.getElementById('A').value;
+                const answerB = document.getElementById('B').value;
+                const answerC = document.getElementById('C').value;
+                const answerD = document.getElementById('D').value;
+                const answerCorrect = document.querySelector('input[name="correct"]:checked').value;
+                console.log('------answerCorrect: ', answerCorrect);
+                const token = localStorage['token']
+                var req = axios.post(`http://127.0.0.1:5000/question/${token}`,
+                    {
+                        question,
+                        picture_path: image,
+                        hint,
+                        answerA,
+                        answerB,
+                        answerC,
+                        answerD,
+                        answerCorrect
+                    }
+                ).then((data) =>
                 {
-                    question,
-                    image,
-                    QuestHint,
-                    AnswerA,
-                    AnswerB,
-                    AnswerC,
-                    AnswerD,
-                    correctAnswer
-                }
-            ).then((data) =>
-            {
-                if (data.status === 200)
-                    window.location = 'admin.html'
-                else 
+                    console.log('------data: ', data);
+                    if (data.status === 200)
+                        window.location = '../Admin.html'
+                    else
+                        alert('something went wrong')
+                }).catch((error) =>
+                {
                     alert('something went wrong')
-            }).catch((error) =>
+                })
+            } catch (error)
             {
-                alert('something went wrong')
-            })
-        } catch(error){
-            console.log(error)
+                console.log(error)
+            }
+            return false
         }
-
-        }
+        
     </script>
 </head>
+
 <body>
-    <center><div class="headerbox">
-        <h1>Admin control panel</h1>
-        <nav class="home-nav"><a class="a1" href="../admin.html">Home</a></nav>
-        <b class="logout-nav"><a class ="a3" href="../login.html" onclick="emptyCookie()">Logout</a></b>
-    </div></center>
+    <center>
+        <div class="headerbox">
+            <h1>Admin control panel</h1>
+            <nav class="home-nav"><a class="a1" href="../admin.html">Home</a></nav>
+            <b class="logout-nav"><a class="a3" href="../login.html" onclick="emptyCookie()">Logout</a></b>
+        </div>
+    </center>
     <hr>
-    <h1 class ="h11">Create a question</h1>
+    <h1 class="h11">Create a question</h1>
     <div class="container">
         <form method="post" action="">
             <label for="question"><b>Enter the question:</b></label>
-            <br>   
+            <br>
             <textarea id="question" name="question" size="17" rows="7" cols="100"></textarea>
             <br>
-            <label for="image" class="img-input">Choose Image</label>
-            <input id="image" type="file" style="visibility:hidden;" name="img" />
+            <label><b>Add An Image URL</b></label>
+            <input id="image" type=""> </input>
+            <!-- <p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+            <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+            <p><img id="output" width="200" /></p> -->
             <br><br>
             <label><b>Quest Hint:</b></label>
-            <input type="text" id="questhint" placeholder="Enter Hint here" name="hint" size="17" maxlength="500" required>
+            <input type="text" id="questhint" placeholder="Enter Hint here" name="hint" size="17" maxlength="500"
+                required>
             <br><br>
             <hr>
             <b>Enter the answers:</b>
             <br><br>
-            <label><b>Answer A:</b></label>   
+            <label><b>Answer A:</b></label>
             <input type="text" placeholder="Enter Answer A" name="AnswerA" size="17" id="A" maxlength="500" required>
-            <input type="radio" id="correctA" name="correct" value="A">
+            <input type="radio" id="correctA" name="correct" value="answerA">
             <br><br>
-            <label><b>Answer B:</b></label>   
+            <label><b>Answer B:</b></label>
             <input type="text" placeholder="Enter Answer B" name="AnswerB" size="17" id="B" maxlength="500" required>
-            <input type="radio" id="correctB" name="correct" value="B">
+            <input type="radio" id="correctB" name="correct" value="answerB">
             <br><br>
-            <label><b>Answer C:</b></label>   
+            <label><b>Answer C:</b></label>
             <input type="text" placeholder="Enter Answer C" name="AnswerC" size="17" id="C" maxlength="500" required>
-            <input type="radio" id="correctC" name="correct" value="C">
+            <input type="radio" id="correctC" name="correct" value="answerC">
             <br><br>
-            <label><b>Answer D:</b></label>   
+            <label><b>Answer D:</b></label>
             <input type="text" placeholder="Enter Answer D" name="AnswerD" size="17" id="D" maxlength="500" required>
-            <input type="radio" id="correctD" name="correct" value="D">
+            <input type="radio" id="correctD" name="correct" value="answerD">
             <br><br>
-            <button type="submit">Add Question</button>
+            <button onclick="CreateQuestion()" type="button">Add Question</button>
             <button type="reset">Reset</button>
         </form>
+        <script>
+            var loadFile = function(event) {
+                var image = document.getElementById('output');
+                image.src = URL.createObjectURL(event.target.files[0]);
+            };
+            </script>
     </div>
 </body>
+
 </html>

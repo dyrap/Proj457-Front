@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students scores</title>
+    <title>ranking</title>
     <style type="text/css">
         Body{  
             font-family: Calibri, Helvetica, sans-serif;  
@@ -50,6 +51,11 @@
               color: white;
           }
           .home-nav{
+              position: absolute;
+              top: 70px;
+              right: 330px;
+          }
+          .profile-nav{
               position: absolute;
               top: 70px;
               right: 180px;
@@ -118,30 +124,77 @@
 </script>
 <body>
     <center><div class="headerbox">
-        <h1>Admin control panel</h1>
-        <nav class="home-nav"><a class="a1" href="admin.html">Home</a></nav>
+        <h1>Welcome to the ranking page</h1>
+        <nav class="home-nav"><a class="a1" href="Admin.html">Home</a></nav>
         <b class="logout-nav"><a class ="a3" href="login.html" onclick="emptyCookie()">Logout</a></b>
     </div></center>
     <br>
     <hr>
     <br>
-    <h1 class="h11">Students score</h1>
+    <h1 class ="h11">Rankings</h1>
     <div class="container">
         <div class="container1">
-            <table class="table">
+            <table class="table" id="rankingTable">
                 <tr class="table__header">
-                    {% for header in headings %}
-                    <th class="table__cell">{{ header }}</th>
+                    <th class="table__cell">Rank</th>
+                    <th class="table__cell">Username</th>
+                    <th class="table__cell">Score</th>
                 </tr>
-                {%for row in data %}
                 <tr class="table__row">
-                    {% for cell in row %}
-                    <td class="table__cell">{{ cell }}</td>
-                    {% endfor %}
                 </tr>
-                {% endfor %}
             </table>
         </div>
     </div>
+    <script>
+        var rank = 0
+        try
+        {
+
+            var req = axios.get('http://127.0.0.1:5000/scores'
+            ).then((data) =>
+            {
+                console.log('------data: ', data);
+                if (data.status === 200)
+                {
+                    const scoresSorted = data.data.sort((a, b) => b.score - a.score)
+                    
+
+                    scoresSorted.forEach((score, index) => {
+                        console.log('------score: ', score);
+                        const tr = document.createElement("TR");
+                        tr.class = "table__row"
+                        const th1 = document.createElement("TD");
+                        th1.class = "table__cell"
+                        th1.innerHTML = index + 1
+                        const th3 = document.createElement("TD");
+                        th3.class = "table__cell"
+                        th3.innerHTML = score.userName
+                        const th4 = document.createElement("TD");
+                        th4.class = "table__cell"
+                        th4.innerHTML = score.score ? score.score : 0
+
+                        
+
+
+                        tr.appendChild(th1)
+                        tr.appendChild(th3)
+                        tr.appendChild(th4)
+
+                        document.getElementById("rankingTable").appendChild(tr);
+                    })
+
+                }
+                else
+                    alert('something went wrong')
+            }).catch((error) =>
+            {
+                console.log('------error: ', error);
+                alert('something went wrong')
+            })
+        } catch (error)
+        {
+            console.log('------error: ', error);
+        }
+    </script>
 </body>
 </html>

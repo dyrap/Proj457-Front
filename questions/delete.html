@@ -1,54 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="../node_modules/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete question</title>
     <style>
-        Body{  
-          font-family: Calibri, Helvetica, sans-serif;  
-          padding:10px;
-          font-size:22px;
-          background-color:#F4F6F6;
+        Body {
+            font-family: Calibri, Helvetica, sans-serif;
+            padding: 10px;
+            font-size: 22px;
+            background-color: #F4F6F6;
         }
-        .headerbox{
-            width:96.8%;   
-            margin: -20px -60px 1px;  
-            padding: 0px 46px 0px;      
-            border: 2px solid black; 
+
+        .headerbox {
+            width: 96.8%;
+            margin: -20px -60px 1px;
+            padding: 0px 46px 0px;
+            border: 2px solid black;
             font-size: 20px;
             background-color: #36366C;
             color: white;
         }
-        input{   
-            width: 20%;   
-            margin: 1px 0;  
-            padding: 10px 10px;   
-            display: inline-block;   
-            border: 1px solid black;   
-            border-radius: 10px;  
-        }  
-        .container{
-            width: 93.4%;    
-            padding: 20px 60px;      
-            border: 2px solid black; 
+
+        input {
+            width: 20%;
+            margin: 1px 0;
+            padding: 10px 10px;
+            display: inline-block;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        .container {
+            width: 93.4%;
+            padding: 20px 60px;
+            border: 2px solid black;
             font-size: 20px;
             border-radius: 10px;
             background-color: white;
             align-items: center;
-            text-align: center; 
+            text-align: center;
         }
-        button{   
-            width: 10%;  
-            padding: 5px;   
-            margin: 10px 40px;   
-            border: 1px solid black;   
+
+        button {
+            width: 10%;
+            padding: 5px;
+            margin: 10px 40px;
+            border: 1px solid black;
             cursor: pointer;
-            font-size: 20px;  
+            font-size: 20px;
             border-radius: 10px;
         }
-        button,button:link, button:visited {
+
+        button,
+        button:link,
+        button:visited {
             background-color: white;
             color: black;
             border: 2px solid blue;
@@ -58,21 +67,27 @@
             text-decoration: none;
             display: inline-block;
         }
-        button:hover, button:active {
+
+        button:hover,
+        button:active {
             background-color: blue;
             color: white;
         }
-        .home-nav{
+
+        .home-nav {
             position: absolute;
             top: 70px;
             right: 180px;
         }
-        .logout-nav{
+
+        .logout-nav {
             position: absolute;
             top: 70px;
             right: 30px;
         }
-        .a1:link, .a1:visited {
+
+        .a1:link,
+        .a1:visited {
             color: white;
             border: 1px solid #36366C;
             padding: 1px 20px;
@@ -80,11 +95,15 @@
             text-decoration: none;
             display: inline-block;
         }
-        .a1:hover, .a1:active {
+
+        .a1:hover,
+        .a1:active {
             background-color: #313161;
             color: white;
         }
-        .a3:link, .a3:visited {
+
+        .a3:link,
+        .a3:visited {
             background-color: #454545;
             color: white;
             border: 1px solid #36366C;
@@ -94,32 +113,40 @@
             display: inline-block;
             border-radius: 10px;
         }
-        .a3:hover, .a3:active {
+
+        .a3:hover,
+        .a3:active {
             background-color: black;
             color: white;
         }
-        .img-input{
+
+        .img-input {
             background-color: white;
             border: 2px solid blue;
-            width: 10%;   
-            margin: 1px ; 
-            margin-right: -400px; 
-            padding: 10px 10px;   
-            display: inline-block;      
+            width: 10%;
+            margin: 1px;
+            margin-right: -400px;
+            padding: 10px 10px;
+            display: inline-block;
             border-radius: 10px;
         }
-        .img-input:link, .img-input:visited {
+
+        .img-input:link,
+        .img-input:visited {
             color: black;
             padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
         }
-        .img-input:hover, .img-input:active {
+
+        .img-input:hover,
+        .img-input:active {
             background-color: blue;
             color: white;
             cursor: pointer;
         }
+
         .delete-question {
             width: 3%;
             padding: 0px;
@@ -131,59 +158,149 @@
             cursor: pointer;
             font-size: 16px;
         }
-        .delete-question:hover, .delete-question:active {
+
+        .delete-question:hover,
+        .delete-question:active {
             background-color: #E0E0E0;
             cursor: pointer;
             color: red;
-        }  
+        }
     </style>
     <script>
-        function getCookie(){
+        function getCookie()
+        {
             console.log("cookie: " + document.cookie);
             return document.cookie;
         }
-        function emptyCookie(){
+        function emptyCookie()
+        {
             document.cookie = "";
         }
 
         deleteBtns = document.querySelectorAll(".delete-question");
-      
-      for (let i = 0; i < deleteBtns.length; i++) {
-        const deleteBtn = deleteBtns[i];
-        deleteBtn.onclick = function(e) {
-          console.log("Delete event: ", e);
-          const questionId = e.target.dataset.id;
-          fetch('/questions/'+ questionId + '/delete',{
-            method: 'DELETE'
-          }).then(function() {
-            console.log('Parent?', e.target);
-            const item = e.target.parentElement;
-            item.remove();
-              document.getElementById("error").className = "hidden";
-            })
-            .catch(function(e) {
-              console.error(e);
-              document.getElementById("error").className = "";
-            });
-        };
-      }
+
+        for (let i = 0; i < deleteBtns.length; i++)
+        {
+            const deleteBtn = deleteBtns[i];
+            deleteBtn.onclick = function (e)
+            {
+                console.log("Delete event: ", e);
+                const questionId = e.target.dataset.id;
+                fetch('/questions/' + questionId + '/delete', {
+                    method: 'DELETE'
+                }).then(function ()
+                {
+                    console.log('Parent?', e.target);
+                    const item = e.target.parentElement;
+                    item.remove();
+                    document.getElementById("error").className = "hidden";
+                })
+                    .catch(function (e)
+                    {
+                        console.error(e);
+                        document.getElementById("error").className = "";
+                    });
+            };
+        }
+        const questionsMap = () =>
+        {
+
+            try
+            {
+                var req = axios.get('http://127.0.0.1:5000/questions'
+
+                ).then((data) =>
+                {
+                    console.log('------data: ', data);
+                    if (data.status === 200)
+                    {
+                        console.log('------status 200', data);
+                        // const questions = 
+                        questions = data?.data
+                        data?.data.forEach((ques) =>
+                        {
+                            // document.querySelector(`input[name="${ques.id}"]:checked`).value;
+                            console.log('------ques: ', ques);
+                            const div = document.createElement("DIV");
+
+                            const para = document.createElement("B");
+                            const node = document.createTextNode(ques.question);
+                            para.appendChild(node);
+                            
+                            const img = document.createElement("IMG");
+                            img.src = ques.image_url
+                            img.width = '250'
+
+                            const br = document.createElement("BR");
+
+
+                            const buttonHint = document.createElement("BUTTON");
+                            buttonHint.class = "delete-question"
+                            buttonHint.innerHTML = "&cross;"
+                            const token = localStorage['token']
+                            buttonHint.onclick = () =>
+                            {
+                                axios.patch(`http://127.0.0.1:5000/question/${token}`, {
+                                    "id": ques.id
+                                }).then((data) => {
+                                    console.log('------data: ', data);
+                                    window.location = 'delete.html'
+                                }).catch((error) => {
+                                    console.log('------error: ', error);
+                                })
+                                return false
+                            }
+                            // buttonHint.innerHTML = 'Delete Question'
+
+
+
+                            div.appendChild(img)
+                            div.appendChild(br)
+                            div.appendChild(para)
+                            // div.appendChild(br)
+                            div.appendChild(buttonHint)
+                            document.getElementById("questionList").appendChild(div);
+
+                        })
+                    } else
+                        alert('something went wrong')
+                }).catch((error) =>
+                {
+                    console.log('error: ', error)
+                    alert('something went wrong')
+                })
+            } catch (error)
+            {
+                console.log('error: ', error);
+            }
+
+
+
+        }
     </script>
 </head>
+
 <body>
-    <center><div class="headerbox">
-        <h1>Admin control panel</h1>
-        <nav class="home-nav"><a class="a1" href="../admin.html">Home</a></nav>
-        <b class="logout-nav"><a class ="a3" href="../login.html" onclick="emptyCookie()">Logout</a></b>
-    </div></center>
+    <center>
+        <div class="headerbox">
+            <h1>Admin control panel</h1>
+            <nav class="home-nav"><a class="a1" href="../admin.html">Home</a></nav>
+            <b class="logout-nav"><a class="a3" href="../login.html" onclick="emptyCookie()">Logout</a></b>
+        </div>
+    </center>
     <br>
     <hr>
-    <h1 class ="h11">Delete a question</h1>
+    <h1 class="h11">Delete a question</h1>
     <div class="container">
-        {% for question in questions %}
+        <!-- {% for question in questions %}
         <img src={{ question.image }} ><br>
         <b>{{ question }}</b>
         <button class="delete-question" data-id="{{ question.id }}">&cross;</button>
-        {% endfor %}
+        {% endfor %} -->
+        <p id="test"></p>
+        <ul id="questionList"></ul>
     </div>
+    <script>questionsMap()</script>
 </body>
+
 </html>

@@ -99,7 +99,8 @@
                         }
                         else
                         {
-
+                            console.log('------admin value', document.getElementById('role').value)
+                            
                             console.log('------data: ', data);
                             console.log('------data: ', data.data?.token);
                             saveAUserID(data.data?.token)
@@ -107,7 +108,14 @@
                             localStorage["firstName"] = data.data?.firstName
                             localStorage["lastName"] = data.data?.lastName
                             localStorage["userId"] = data.data?.id
-                            window.location = 'index.html'
+                            if (document.getElementById('role').value === 'admin') {
+                                data.data?.isAdmin ? window.location = 'admin.html' : alert('Not an admin')
+                            }
+                            else {
+                                !data.data?.isAdmin?
+                                window.location = 'index.html' :
+                                alert('You are not a student!')
+                            }
                         }
                     }
                     else
@@ -142,8 +150,8 @@
             <br>
             <select class='select-control' name='s1' id=role>
                 <option value=''>Select</option>
-                <option value='index.html'>Student</option>
-                <option value='admin.html'>Admin</option>
+                <option value='student'>Student</option>
+                <option value='admin'>Admin</option>
               </select>
             <br>
             <button onclick="signIn()"><b>Login</b></button>
